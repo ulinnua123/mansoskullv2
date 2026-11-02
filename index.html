@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kamus Kompetensi ASN Level 1–2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: index of 9 competencies on the left, a detail sheet on the right with a level ladder (1–5) and L1/L2 panels */
+:root{
+  --bg:#f3f5f4;
+  --surface:#ffffff;
+  --ink:#16201d;
+  --muted:#5b6a65;
+  --line:#d9e0dd;
+  --accent:#0f6b5c;      /* hijau dinas */
+  --accent-soft:#e1efeb;
+  --gold:#a8741a;
+  --gold-soft:#f6ecd8;
+  --display:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1513;--surface:#18201d;--ink:#e6ece9;--muted:#9aaba5;--line:#2b3632;
+  --accent:#4fc0a8;--accent-soft:#183a33;--gold:#e0ad55;--gold-soft:#3a2f1b;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1513;--surface:#18201d;--ink:#e6ece9;--muted:#9aaba5;--line:#2b3632;
+  --accent:#4fc0a8;--accent-soft:#183a33;--gold:#e0ad55;--gold-soft:#3a2f1b;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:24px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin:4px 0 6px;text-wrap:balance;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0;max-width:62ch}
+
+.mode{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.mode button{font:600 13px var(--body);border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:999px;cursor:pointer}
+.mode button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:flex;flex-direction:column;gap:18px}
+@media (max-width:820px){nav{position:static}}
+.group h2{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.list{display:flex;flex-direction:column;gap:4px}
+@media (max-width:820px){.list{flex-direction:row;flex-wrap:wrap}}
+.item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:500 14px var(--body);color:var(--ink);
+  background:transparent;border:1px solid transparent;border-radius:10px;padding:8px 10px;cursor:pointer}
+@media (max-width:820px){.item{width:auto;border-color:var(--line);background:var(--surface)}}
+.item:hover{background:var(--surface);border-color:var(--line)}
+.item[aria-current="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.code{font-family:var(--mono);font-size:11.5px;color:var(--accent);min-width:38px}
+.item.sk .code{color:var(--gold)}
+.item.sk[aria-current="true"]{background:var(--gold-soft);border-color:var(--gold)}
+
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,32px);min-width:0}
+.sheet-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-start}
+.tag{display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.tag b{font-weight:500;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px}
+.sheet.is-sk .tag b{color:var(--gold);background:var(--gold-soft)}
+h3{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.6vw,28px);margin:6px 0 0;text-wrap:balance;letter-spacing:-.01em}
+
+/* level ladder */
+.ladder{display:flex;align-items:flex-end;gap:4px}
+.rung{width:30px;border-radius:5px 5px 2px 2px;background:var(--line);display:flex;align-items:flex-start;justify-content:center;
+  font:500 11px var(--mono);color:var(--muted);padding-top:3px}
+.rung.on{background:var(--accent);color:var(--bg)}
+.sheet.is-sk .rung.on{background:var(--gold)}
+.ladder-cap{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:right}
+
+.def{margin:18px 0 22px;padding:14px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;max-width:80ch}
+.sheet.is-sk .def{border-color:var(--gold);background:var(--gold-soft)}
+.def .lbl{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+
+.levels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.levels.single{grid-template-columns:minmax(0,1fr)}
+@media (max-width:640px){.levels{grid-template-columns:minmax(0,1fr)}}
+.lv{border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.lv-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.lv-num{flex:none;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font:800 18px var(--display);
+  background:var(--accent);color:var(--bg)}
+.lv.l1 .lv-num{background:var(--accent-soft);color:var(--accent)}
+.sheet.is-sk .lv-num{background:var(--gold);color:var(--bg)}
+.sheet.is-sk .lv.l1 .lv-num{background:var(--gold-soft);color:var(--gold)}
+.lv-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lv-desc{font-weight:700;font-size:15.5px;line-height:1.4;margin-top:2px;text-wrap:pretty}
+ol.ind{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ol.ind li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;font-size:14.5px}
+ol.ind .n{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
+.pager button{font:600 13px var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+.pager button:hover{border-color:var(--accent)}
+.pager button:disabled{opacity:.4;cursor:default}
+
+footer{margin-top:24px;color:var(--muted);font-size:12.5px;max-width:80ch}
+.key{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:6px}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+@media (prefers-reduced-motion:no-preference){.sheet-body{animation:in .25s ease}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Permenpan RB No. 38 Tahun 2017 · Lampiran II &amp; III</div>
+      <h1>Kamus Kompetensi Manajerial &amp; Sosial Kultural</h1>
+      <p class="sub">Ringkasan level 1 dan 2: nama kompetensi, definisi, deskripsi level, dan indikator perilaku. Pilih kompetensi di kiri.</p>
+    </div>
+    <div class="mode" role="group" aria-label="Tampilan level">
+      <button id="m-both" aria-pressed="true" data-mode="both">Level 1 &amp; 2</button>
+      <button id="m-1" aria-pressed="false" data-mode="1">Level 1</button>
+      <button id="m-2" aria-pressed="false" data-mode="2">Level 2</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <nav aria-label="Daftar kompetensi">
+      <div class="group"><h2>Manajerial · 8</h2><div class="list" id="list-m"></div></div>
+      <div class="group"><h2>Sosial Kultural · 1</h2><div class="list" id="list-sk"></div></div>
+    </nav>
+
+    <main class="sheet" id="sheet" aria-live="polite">
+      <div class="sheet-body" id="body"></div>
+      <div class="pager">
+        <button id="prev">← Sebelumnya</button>
+        <button id="next">Berikutnya →</button>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    Setiap kompetensi punya 5 level. Halaman ini memuat level 1 dan 2 saja. Rumusan indikator mengikuti teks peraturan, dirapikan sedikit agar mudah dibaca.
+    <div class="key">
+      <span><i class="dot" style="background:var(--accent)"></i>Kompetensi manajerial (M)</span>
+      <span><i class="dot" style="background:var(--gold)"></i>Kompetensi sosial kultural (SK)</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+const DATA = [
+ {code:"M.01",name:"Integritas",
+  def:"Konsisten berperilaku selaras dengan nilai, norma dan/atau etika organisasi, dan jujur dalam hubungan dengan manajemen, rekan kerja, bawahan langsung, dan pemangku kepentingan, menciptakan budaya etika tinggi, bertanggung jawab atas tindakan atau keputusan beserta risiko yang menyertainya.",
+  l1:{d:"Mampu bertindak sesuai nilai, norma, etika organisasi dalam kapasitas pribadi",i:[
+   "Bertingkah laku sesuai dengan perkataan; berkata sesuai dengan fakta.",
+   "Melaksanakan peraturan, kode etik organisasi dalam lingkungan kerja sehari-hari, pada tataran individu/pribadi.",
+   "Tidak menjanjikan/memberikan sesuatu yang bertentangan dengan aturan organisasi."]},
+  l2:{d:"Mampu mengingatkan, mengajak rekan kerja untuk bertindak sesuai nilai, norma, dan etika organisasi",i:[
+   "Mengingatkan rekan kerja untuk bertindak sesuai dengan nilai, norma, dan etika organisasi dalam segala situasi dan kondisi; mengajak orang lain untuk bertindak sesuai etika dan kode etik.",
+   "Menerapkan norma-norma secara konsisten dalam setiap situasi, pada unit kerja terkecil/kelompok kerjanya.",
+   "Memberikan informasi yang dapat dipercaya sesuai dengan etika organisasi."]}},
+ {code:"M.02",name:"Kerjasama",
+  def:"Kemampuan menjalin, membina, mempertahankan hubungan kerja yang efektif, memiliki komitmen saling membantu dalam penyelesaian tugas, dan mengoptimalkan segala sumber daya untuk mencapai tujuan strategis organisasi.",
+  l1:{d:"Berpartisipasi dalam kelompok kerja",i:[
+   "Berpartisipasi sebagai anggota tim yang baik, melakukan tugas/bagiannya, dan mendukung keputusan tim.",
+   "Mendengarkan dan menghargai masukan dari orang lain dan memberikan usulan-usulan bagi kepentingan tim.",
+   "Mampu menjalin interaksi sosial untuk penyelesaian tugas."]},
+  l2:{d:"Menumbuhkan tim kerja yang partisipatif dan efektif",i:[
+   "Membantu orang lain dalam menyelesaikan tugas-tugas mereka untuk mendukung sasaran tim.",
+   "Berbagi informasi yang relevan atau bermanfaat pada anggota tim; mempertimbangkan masukan dan keahlian anggota dalam tim/kelompok kerja serta bersedia untuk belajar dari orang lain.",
+   "Membangun komitmen yang tinggi untuk menyelesaikan tugas tim."]}},
+ {code:"M.03",name:"Komunikasi",
+  def:"Kemampuan untuk menerangkan pandangan dan gagasan secara jelas, sistematis disertai argumentasi yang logis dengan cara-cara yang sesuai baik secara lisan maupun tertulis; memastikan pemahaman; mendengarkan secara aktif dan efektif; mempersuasi, meyakinkan dan membujuk orang lain dalam rangka mencapai tujuan organisasi.",
+  l1:{d:"Menyampaikan informasi dengan jelas, lengkap, pemahaman yang sama",i:[
+   "Menyampaikan informasi (data), pikiran atau pendapat dengan jelas, singkat dan tepat dengan menggunakan cara/media yang sesuai dan mengikuti alur yang logis.",
+   "Memastikan pemahaman yang sama atas instruksi yang diterima/diberikan.",
+   "Mampu melaksanakan kegiatan surat-menyurat sesuai tata naskah organisasi."]},
+  l2:{d:"Aktif menjalankan komunikasi secara formal dan informal; bersedia mendengarkan orang lain, menginterpretasikan pesan dengan respons yang sesuai, mampu menyusun materi presentasi, pidato, naskah, laporan, dll.",i:[
+   "Menggunakan gaya komunikasi informal untuk meningkatkan hubungan profesional.",
+   "Mendengarkan pihak lain secara aktif; menangkap dan menginterpretasikan pesan-pesan dari orang lain, serta memberikan respons yang sesuai.",
+   "Membuat materi presentasi, pidato, draf naskah, laporan, dll. sesuai arahan pimpinan."]}},
+ {code:"M.04",name:"Orientasi pada Hasil",
+  def:"Kemampuan mempertahankan komitmen pribadi yang tinggi untuk menyelesaikan tugas, dapat diandalkan, bertanggung jawab, mampu secara sistematis mengidentifikasi risiko dan peluang dengan memperhatikan keterhubungan antara perencanaan dan hasil, untuk keberhasilan organisasi.",
+  l1:{d:"Bertanggung jawab untuk memenuhi standar kerja",i:[
+   "Menyelesaikan tugas dengan tuntas; dapat diandalkan.",
+   "Bekerja dengan teliti dan hati-hati guna meminimalkan kesalahan dengan mengacu pada standar kualitas (SOP).",
+   "Bersedia menerima masukan, mengikuti contoh cara bekerja yang lebih efektif dan efisien di lingkungan kerjanya."]},
+  l2:{d:"Berupaya meningkatkan hasil kerja pribadi yang lebih tinggi dari standar yang ditetapkan, mencari, mencoba metode alternatif untuk peningkatan kinerja",i:[
+   "Menetapkan dan berupaya mencapai standar kerja pribadi yang lebih tinggi dari standar kerja yang ditetapkan organisasi.",
+   "Mencari, mencoba metode kerja alternatif untuk meningkatkan hasil kerjanya.",
+   "Memberi contoh kepada orang-orang di unit kerjanya untuk mencoba menerapkan metode kerja yang lebih efektif yang sudah dilakukannya."]}},
+ {code:"M.05",name:"Pelayanan Publik",
+  def:"Kemampuan dalam melaksanakan tugas-tugas pemerintahan, pembangunan dan kegiatan pemenuhan kebutuhan pelayanan publik secara profesional, transparan, mengikuti standar pelayanan yang objektif, netral, tidak memihak, tidak diskriminatif, serta tidak terpengaruh kepentingan pribadi/kelompok/golongan/partai politik.",
+  l1:{d:"Menjalankan tugas mengikuti standar pelayanan",i:[
+   "Mampu mengerjakan tugas-tugas dengan mengikuti standar pelayanan yang objektif, netral, tidak memihak, tidak diskriminatif, transparan dan tidak terpengaruh kepentingan pribadi/kelompok/partai politik.",
+   "Melayani kebutuhan, permintaan dan keluhan pemangku kepentingan.",
+   "Menyelesaikan masalah dengan tepat tanpa bersikap membela diri dalam kapasitas sebagai pelaksana pelayanan publik."]},
+  l2:{d:"Mampu menyupervisi/mengawasi/menyelia dan menjelaskan proses pelaksanaan tugas pemerintahan/pelayanan publik secara transparan",i:[
+   "Menunjukkan sikap yakin dalam mengerjakan tugas-tugas pemerintahan/pelayanan publik, mampu menyelia dan menjelaskan secara objektif bila ada yang mempertanyakan kebijakan yang diambil.",
+   "Secara aktif mencari informasi untuk mengenali kebutuhan pemangku kepentingan agar dapat menjalankan pelaksanaan tugas pemerintahan, pembangunan dan pelayanan publik secara cepat dan tanggap.",
+   "Mampu mengenali dan memanfaatkan kebiasaan, tata cara, situasi tertentu sehingga apa yang disampaikan menjadi perhatian pemangku kepentingan dalam hal penyelesaian tugas-tugas pemerintahan, pembangunan dan pelayanan publik."]}},
+ {code:"M.06",name:"Pengembangan Diri dan Orang Lain",
+  def:"Kemampuan untuk meningkatkan pengetahuan dan menyempurnakan keterampilan diri; menginspirasi orang lain untuk mengembangkan dan menyempurnakan pengetahuan dan keterampilan yang relevan dengan pekerjaan dan pengembangan karier jangka panjang, mendorong kemauan belajar sepanjang hidup, memberikan saran/bantuan, umpan balik, bimbingan untuk membantu orang lain mengembangkan potensi dirinya.",
+  l1:{d:"Pengembangan diri",i:[
+   "Mengidentifikasi kebutuhan pengembangan diri dan menyeleksi sumber serta metodologi pembelajaran yang diperlukan.",
+   "Menunjukkan usaha mandiri untuk mempelajari keterampilan atau kemampuan baru dari berbagai media pembelajaran.",
+   "Berupaya meningkatkan diri dengan belajar dari orang-orang lain yang berwawasan luas di dalam organisasi."]},
+  l2:{d:"Meningkatkan kemampuan bawahan dengan memberikan contoh dan penjelasan cara melaksanakan suatu pekerjaan",i:[
+   "Meningkatkan kemampuan bawahan dengan memberikan contoh, instruksi, penjelasan dan petunjuk praktis yang jelas kepada bawahan dalam menyelesaikan suatu pekerjaan.",
+   "Membantu bawahan untuk mempelajari proses, program atau sistem baru.",
+   "Menggunakan metode lain untuk meyakinkan bahwa orang lain telah memahami penjelasan atau pengarahan."]}},
+ {code:"M.07",name:"Mengelola Perubahan",
+  def:"Kemampuan dalam menyesuaikan diri dengan situasi yang baru atau berubah dan tidak bergantung secara berlebihan pada metode dan proses lama, mengambil tindakan untuk mendukung dan melaksanakan inisiatif perubahan, memimpin usaha perubahan, mengambil tanggung jawab pribadi untuk memastikan perubahan berhasil diimplementasikan secara efektif.",
+  l1:{d:"Mengikuti perubahan dengan arahan",i:[
+   "Sadar mengenai perubahan yang terjadi di organisasi dan berusaha menyesuaikan diri dengan perubahan tersebut.",
+   "Mengikuti perubahan secara terbuka sesuai petunjuk/pedoman.",
+   "Menyesuaikan cara kerja lama dengan menerapkan metode/proses baru dengan bimbingan orang lain."]},
+  l2:{d:"Proaktif beradaptasi mengikuti perubahan",i:[
+   "Menyesuaikan cara kerja lama dengan menerapkan metode/proses baru selaras dengan ketentuan yang berlaku tanpa arahan orang lain.",
+   "Mengembangkan kemampuan diri untuk menghadapi perubahan.",
+   "Cepat dan tanggap dalam menerima perubahan."]}},
+ {code:"M.08",name:"Pengambilan Keputusan",
+  def:"Kemampuan membuat keputusan yang baik secara tepat waktu dan dengan keyakinan diri setelah mempertimbangkan prinsip kehati-hatian, dirumuskan secara sistematis dan saksama berdasarkan berbagai informasi, alternatif pemecahan masalah dan konsekuensinya, serta bertanggung jawab atas keputusan yang diambil.",
+  l1:{d:"Mengumpulkan informasi untuk bertindak sesuai kewenangan",i:[
+   "Mengumpulkan dan mempertimbangkan informasi yang dibutuhkan dalam mencari solusi.",
+   "Mengenali situasi/pilihan yang tepat untuk bertindak sesuai kewenangan.",
+   "Mempertimbangkan kemungkinan solusi yang dapat diterapkan dalam pekerjaan rutin berdasarkan kebijakan dan prosedur yang telah ditentukan."]},
+  l2:{d:"Menganalisis masalah secara mendalam",i:[
+   "Melakukan analisis secara mendalam terhadap informasi yang tersedia dalam upaya mencari solusi.",
+   "Mempertimbangkan berbagai alternatif yang ada sebelum membuat kesimpulan.",
+   "Membuat keputusan operasional berdasarkan kesimpulan dari berbagai sumber informasi sesuai dengan pedoman yang ada."]}},
+ {code:"SK.01",name:"Perekat Bangsa",sk:true,
+  def:"Kemampuan dalam mempromosikan sikap toleransi, keterbukaan, peka terhadap perbedaan individu/kelompok masyarakat; mampu menjadi perpanjangan tangan pemerintah dalam mempersatukan masyarakat dan membangun hubungan sosial psikologis dengan masyarakat di tengah kemajemukan Indonesia sehingga menciptakan kelekatan yang kuat antara ASN dan para pemangku kepentingan serta di antara para pemangku kepentingan itu sendiri; menjaga, mengembangkan, dan mewujudkan rasa persatuan dan kesatuan dalam kehidupan bermasyarakat, berbangsa dan bernegara Indonesia.",
+  l1:{d:"Peka memahami dan menerima kemajemukan",i:[
+   "Mampu memahami, menerima, peka terhadap perbedaan individu/kelompok masyarakat.",
+   "Terbuka, ingin belajar tentang perbedaan/kemajemukan masyarakat.",
+   "Mampu bekerja bersama dengan individu yang berbeda latar belakang dengannya."]},
+  l2:{d:"Aktif mengembangkan sikap saling menghargai, menekankan persamaan dan persatuan",i:[
+   "Menampilkan sikap dan perilaku yang peduli akan nilai-nilai keberagaman dan menghargai perbedaan.",
+   "Membangun hubungan baik antarindividu dalam organisasi, mitra kerja, pemangku kepentingan.",
+   "Bersikap tenang, mampu mengendalikan emosi, kemarahan dan frustrasi dalam menghadapi pertentangan yang ditimbulkan oleh perbedaan latar belakang, agama/kepercayaan, suku, gender, sosial ekonomi, preferensi politik di lingkungan unit kerjanya."]}}
+];
+
+let cur = 0, mode = "both";
+try { const s = JSON.parse(localStorage.getItem("kk-state")||"{}"); if (Number.isInteger(s.cur) && DATA[s.cur]) cur = s.cur; if (["both","1","2"].includes(s.mode)) mode = s.mode; } catch(e){}
+const save = () => { try { localStorage.setItem("kk-state", JSON.stringify({cur,mode})); } catch(e){} };
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function buildNav(){
+  const lm = document.getElementById("list-m"), ls = document.getElementById("list-sk");
+  DATA.forEach((k,i) => {
+    const b = document.createElement("button");
+    b.className = "item" + (k.sk ? " sk" : "");
+    b.id = "nav-" + i;
+    b.innerHTML = `<span class="code">${k.code}</span><span>${esc(k.name)}</span>`;
+    b.addEventListener("click", () => { cur = i; render(); });
+    (k.sk ? ls : lm).appendChild(b);
+  });
+}
+
+function levelCard(n, L){
+  return `<section class="lv l${n}">
+    <div class="lv-head"><div class="lv-num">${n}</div>
+      <div><div class="lv-label">Level ${n} · Deskripsi</div><div class="lv-desc">${esc(L.d)}</div></div></div>
+    <div class="lv-label" style="margin-bottom:8px">Indikator perilaku</div>
+    <ol class="ind">${L.i.map((t,j)=>`<li><span class="n">${n}.${j+1}</span><span>${esc(t)}</span></li>`).join("")}</ol>
+  </section>`;
+}
+
+function render(){
+  const k = DATA[cur];
+  document.getElementById("sheet").classList.toggle("is-sk", !!k.sk);
+  const show = mode === "both" ? [1,2] : [Number(mode)];
+  const rungs = [1,2,3,4,5].map(n => `<div class="rung ${show.includes(n)?"on":""}" style="height:${14+n*7}px">${n}</div>`).join("");
+  const body = document.getElementById("body");
+  body.innerHTML = `
+    <div class="sheet-top">
+      <div style="min-width:0">
+        <div class="tag"><b>${k.code}</b>${k.sk ? "Kompetensi Sosial Kultural" : "Kompetensi Manajerial"}</div>
+        <h3>${esc(k.name)}</h3>
+      </div>
+      <div aria-label="Level yang ditampilkan dari 5 level">
+        <div class="ladder">${rungs}</div>
+        <div class="ladder-cap">Level ditampilkan</div>
+      </div>
+    </div>
+    <p class="def"><span class="lbl">Definisi</span>${esc(k.def)}</p>
+    <div class="levels ${show.length===1?"single":""}">${show.map(n => levelCard(n, k["l"+n])).join("")}</div>`;
+  body.style.animation = "none"; void body.offsetWidth; body.style.animation = "";
+  document.querySelectorAll(".item").forEach((b,i) => b.setAttribute("aria-current", i===cur ? "true" : "false"));
+  document.querySelectorAll(".mode button").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode===mode ? "true" : "false"));
+  const prev = document.getElementById("prev"), next = document.getElementById("next");
+  prev.disabled = cur === 0; next.disabled = cur === DATA.length-1;
+  prev.textContent = cur > 0 ? "← " + DATA[cur-1].name : "← Sebelumnya";
+  next.textContent = cur < DATA.length-1 ? DATA[cur+1].name + " →" : "Berikutnya →";
+  save();
+}
+
+document.querySelectorAll(".mode button").forEach(b => b.addEventListener("click", () => { mode = b.dataset.mode; render(); }));
+document.getElementById("prev").addEventListener("click", () => { if (cur>0){ cur--; render(); } });
+document.getElementById("next").addEventListener("click", () => { if (cur<DATA.length-1){ cur++; render(); } });
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input,textarea")) return;
+  if (e.key === "ArrowRight" && cur < DATA.length-1){ cur++; render(); }
+  if (e.key === "ArrowLeft" && cur > 0){ cur--; render(); }
+});
+buildNav(); render();
+</script>
+
+</body>
+</html>
